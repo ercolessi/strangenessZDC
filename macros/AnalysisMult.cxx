@@ -1,5 +1,5 @@
 
-void AnalysisMult(Int_t Period=122)
+void AnalysisMult(Int_t Period=126)
 { 
   if (Period == 0) {
     cout<< "No Period specified...exiting" << "\n\n\n"
@@ -128,7 +128,7 @@ void AnalysisMult(Int_t Period=122)
   TH2D *ACeta8 = new TH2D("ACeta8",";ZDCP+ZDC;RefMult08;",100,-1,5000,100,-1,700);
   TH2D *ACV0A = new TH2D("ACV0A",";ZDCP+ZDCN;V0A;",100,-1,5000,100,-1,700);
   TH2D *ACV0C = new TH2D("ACV0C",";ZDCP+ZDCN;V0C;",100,-1,5000,100,-1,700);
-  
+  //ZDC plots
   TH2D * hZDCP1= new TH2D("hZDCP1",";ZDCP1[0];ZDCP1Sum;",bin,-1,4000,bin,-1,4000);
   TH2D * hZDCP2= new TH2D("hZDCP2",";ZDCP2[0];ZDCP2Sum;",bin,-1,4000,bin,-1,4000);
   TH2D * hZDCN1= new TH2D("hZDCN1",";ZDCN1[0];ZDCN1Sum;",bin,-1,4000,bin,-1,4000);
@@ -141,6 +141,8 @@ void AnalysisMult(Int_t Period=122)
   TH2D * hZDCNP2= new TH2D("hZDCNP2","ZDCN2[0] vs ZDCP2[0];ZDCN2[0];ZDCP2[0];",bin,-1,2000,bin,-1,2000);
  
   //----------------------
+  cout << "Looping on Tree entries:  " <<T->GetEntries() << " entries..."<< endl;
+  
    for(Int_t i=0; i<T->GetEntries();i++)//loop over Tree entries
      {
        T->GetEvent(i);//get Tree entries
@@ -152,11 +154,12 @@ void AnalysisMult(Int_t Period=122)
 	   ZDCN1[l]/=cN1[l];
 	   ZDCN2[l]/=cN2[l];
 	 }
+       //Sums
        ZDCP1Sum=ZDCP1[1]+ZDCP1[2]+ZDCP1[3]+ZDCP1[4];
        ZDCP2Sum=ZDCP2[1]+ZDCP2[2]+ZDCP2[3]+ZDCP2[4];
        ZDCN1Sum=ZDCN1[1]+ZDCN1[2]+ZDCN1[3]+ZDCN1[4];
        ZDCN2Sum=ZDCN2[1]+ZDCN2[2]+ZDCN2[3]+ZDCN2[4];
-       
+
        hZDCNP1->Fill(ZDCN1[0],ZDCP1[0]);
        hZDCNP2->Fill(ZDCN2[0],ZDCP2[0]);
        
@@ -231,14 +234,20 @@ void AnalysisMult(Int_t Period=122)
        ACV0C->Fill(ZDCN1[0]+ZDCP1[0]+ZDCN2[0]+ZDCP2[0],V0CEstimator_abs);
      }
 
+   cout<< "Writing all the histograms..." << endl;
+   
    //Write on root file
    TFile* Write;
    if (Period==122)  Write = new TFile ("PROVA12b_kINT7.root", "recreate");   
    if (Period==123)  Write = new TFile ("LHC12c.root", "recreate");   
-   if (Period==126)  Write = new TFile ("CUTonZDCMLHC12f.root", "recreate");   
+   if (Period==126)  Write = new TFile ("PROVALHC12f.root", "recreate");   
    if (Period==189)  Write = new TFile ("LHC18i.root", "recreate");
    gStyle->SetOptFit();
 
+   TF1* gaus = new TF1 ("gaus", "gaus", -1000,1000);
+   resP1->FitSlicesY(gaus);
+   TH1D * resP1_1 = (TH1D*)gDirectory->Get("resP1_1");
+   resP1_1->Write();
    hZDCNP1->Write();
    hZDCNP2->Write();
    resP1->Write();
@@ -253,123 +262,83 @@ void AnalysisMult(Int_t Period=122)
    hNCV0A->Write();
    hNCV0A->ProfileY()->Write();
    hNCV0A->ProfileX()->Write();
-   //hNCV0A_pfy->Write();
-   //hNCV0A_pfx->Write();
-   
+  
    hNCV0C->Write();
    hNCV0C->ProfileY()->Write();
    hNCV0C->ProfileX()->Write();
-   //hNCV0C_pfy->Write();
-   //hNCV0C_pfx->Write();
    
    hNCV0M->Write();
    hNCV0M->ProfileY()->Write();
    hNCV0M->ProfileX()->Write();
-   //hNCV0M_pfy->Write();
-   //hNCV0M_pfx->Write();
    
    hNCeta8->Write();
    hNCeta8->ProfileY()->Write();
    hNCeta8->ProfileX()->Write();
-   //hNCeta8_pfy->Write();
-   //hNCeta8_pfx->Write();
    
    hPCV0A->Write();
    hPCV0A->ProfileY()->Write();
    hPCV0A->ProfileX()->Write();
-   //hPCV0A_pfy->Write();
-   //hPCV0A_pfx->Write();
    
    hPCV0C->Write();
    hPCV0C->ProfileY()->Write();
    hPCV0C->ProfileX()->Write();
-   //hPCV0C_pfy->Write();
-   //hPCV0C_pfx->Write();
    
    hPCV0M->Write();
    hPCV0M->ProfileY()->Write();
    hPCV0M->ProfileX()->Write();
-   //hPCV0M_pfy->Write();
-   //hPCV0M_pfx->Write();
    
    hPCeta8->Write();
    hPCeta8->ProfileY()->Write();
    hPCeta8->ProfileX()->Write();
-   //hPCeta8_pfy->Write();
-   //hPCeta8_pfx->Write();
-
+   
    hNAV0A->Write();
    hNAV0A->ProfileY()->Write();
    hNAV0A->ProfileX()->Write();
-   //hNAV0A_pfy->Write();
-   //hNAV0A_pfx->Write();
    
    hNAV0C->Write();
    hNAV0C->ProfileY()->Write();
    hNAV0C->ProfileX()->Write();
-   //hNAV0C_pfy->Write();
-   //hNAV0C_pfx->Write();
    
    hNAV0M->Write();
    hNAV0M->ProfileY()->Write();
    hNAV0M->ProfileX()->Write();
-   //hNAV0M_pfy->Write();
-   //hNAV0M_pfx->Write();
-   
+  
    hNAeta8->Write();
    hNAeta8->ProfileY()->Write();
    hNAeta8->ProfileX()->Write();
-   //hNAeta8_pfy->Write();
-   //hNAeta8_pfx->Write();
    
    hPAV0A->Write();
    hPAV0A->ProfileY()->Write();
    hPAV0A->ProfileX()->Write();
-   //hPAV0A_pfy->Write();
-   //hPAV0A_pfx->Write();
-   
+    
    hPAV0C->Write();
    hPAV0C->ProfileY()->Write();
    hPAV0C->ProfileX()->Write();
-   //hPAV0C_pfy->Write();
-   //hPAV0C_pfx->Write();
    
    hPAV0M->Write();
    hPAV0M->ProfileY()->Write();
    hPAV0M->ProfileX()->Write();
-   //hPAV0M_pfy->Write();
-   //hPAV0M_pfx->Write();
    
    hPAeta8->Write();
    hPAeta8->ProfileY()->Write();
    hPAeta8->ProfileX()->Write();
-   //hPAeta8_pfy->Write();
-   //hPAeta8_pfx->Write();
    
    totCV0M->Write();
    totCV0M ->ProfileY()->Write();
    totCV0M->ProfileX()->Write();
-   //totCV0M_pfy->Write();
-   //totCV0M_pfx->Write();
-   
+    
    totCeta8->Write();
    totCeta8->ProfileY()->Write();
    totCeta8->ProfileX()->Write();
-   //totCeta8_pfy->Write();
-   //totCeta8_pfx->Write();
    
    totCV0A->Write();
    totCV0A ->ProfileY()->Write();
    totCV0A->ProfileX()->Write();
-   //totCV0A_pfy->Write();
-   // totCV0A_pfx->Write();
    
    totCV0C->Write();
    totCV0C->ProfileY()->Write();
    totCV0C->ProfileX()->Write();
-   //totCV0C_pfy->Write();
-   //totCV0C_pfx->Write();
-
+  
    totAV0M->Write();
    totAV0M ->ProfileY()->Write();
    totAV0M->ProfileX()->Write();
@@ -407,8 +376,8 @@ void AnalysisMult(Int_t Period=122)
    ACV0C->Write();
    ACV0C->ProfileY()->Write();
    ACV0C->ProfileX()->Write();
-   //ACV0C_pfy->Write();
-   //ACV0C_pfx->Write();
+   
+   cout<< "All done!" << endl;
 
    Write->Close();
 }

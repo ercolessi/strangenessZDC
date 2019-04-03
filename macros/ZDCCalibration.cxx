@@ -1,9 +1,4 @@
-{ 
-  //12b178167pass1.root
-  //12b178167pass2.root
-  //12c182289pass2.root
-  //12f188108pass2.root
-  //18i288908pass1.root
+{
   
   TFile * Read = new TFile ("LeadingMerged12b_kINT7.root");
   TTree * T = (TTree *)Read->Get("tEvents");
@@ -24,9 +19,6 @@
   T->SetBranchAddress("adcZDCN2",ZDCN2);
 
   //Histos
-  TH2D * hZDCNP1= new TH2D("hZDCNP1","ZDCN1[0] vs ZDCP1[0];ZDCN1[0];ZDCP1[0];",bin,-1,2000,bin,-1,2000);
-  TH2D * hZDCNP2= new TH2D("hZDCNP2","ZDCN2[0] vs ZDCP2[0];ZDCN2[0];ZDCP2[0];",bin,-1,2000,bin,-1,2000);
-  
   TH2D * hZDCP1_ch01= new TH2D("hZDCP1_ch01","ZDCP1[1] > 0.9*(ZDCP1[1]+ZDCP1[2]+ZDCP1[3]+ZDCP1[4]);ZDCP1[0];ZDCP1Sum;",bin,-1,4000,bin,-1,4000);
   TH2D * hZDCP1_ch02= new TH2D("hZDCP1_ch02","ZDCP1[2] > 0.8*(ZDCP1[1]+ZDCP1[2]+ZDCP1[3]+ZDCP1[4]);ZDCP1[0];ZDCP1Sum;",bin,-1,4000,bin,-1,4000);
   TH2D * hZDCP1_ch03= new TH2D("hZDCP1_ch03","ZDCP1[3] > 0.8*(ZDCP1[1]+ZDCP1[2]+ZDCP1[3]+ZDCP1[4]);ZDCP1[0];ZDCP1Sum;",bin,-1,4000,bin,-1,4000);
@@ -46,11 +38,6 @@
   TH2D * hZDCN2_ch02= new TH2D("hZDCN2_ch02","ZDCN2[2] > 0.9*(ZDCN2[1]+ZDCN2[2]+ZDCN2[3]+ZDCN2[4]);ZDCN2[0];ZDCN2Sum;",bin,-1,4000,bin,-1,4000);
   TH2D * hZDCN2_ch03= new TH2D("hZDCN2_ch03","ZDCN2[3] > 0.9*(ZDCN2[1]+ZDCN2[2]+ZDCN2[3]+ZDCN2[4]);ZDCN2[0];ZDCN2Sum;",bin,-1,4000,bin,-1,4000);
   TH2D * hZDCN2_ch04= new TH2D("hZDCN2_ch04","ZDCN2[4] > 0.9*(ZDCN2[1]+ZDCN2[2]+ZDCN2[3]+ZDCN2[4]);ZDCN2[0];ZDCN2Sum;",bin,-1,4000,bin,-1,4000);
-
-  TH2D * resP1= new TH2D("resP1","Resolution P1;sum-common;(sum+common)/2;",bin,-1,4000,bin,-2000,2000);
-  TH2D * resN1= new TH2D("resN1","Resolution N1;sum-common;sum+comm /2;",bin,-1,4000,bin,-2000,2000);
-  TH2D * resP2= new TH2D("resP2","Resolution P2;sum-common;(sum+common)/2;",bin,-1,4000,bin,-2000,2000);
-  TH2D * resN2= new TH2D("resN2","Resolution N2;sum-common;sum+comm /2 ;",bin,-1,4000,bin,-2000,2000);
 
   TH1D * hcP1_1 = new TH1D("hcP1_1","cP1_1",bin,-1,5);
   TH1D * hcP1_2 = new TH1D("hcP1_2","cP1_2",bin,-1,5);
@@ -162,44 +149,8 @@
       cN2[2] *= hZDCN2_ch02->GetFunction("f")->GetParameter(0);
       cN2[3] *= hZDCN2_ch03->GetFunction("f")->GetParameter(0);
       cN2[4] *= hZDCN2_ch04->GetFunction("f")->GetParameter(0);
-     
     }
 
-/* for(Int_t i=0; i<T->GetEntries();i++)
-    {
-      T->GetEvent(i);
-       
-      for (Int_t l=1; l<5; l++)
-	{
-	  ZDCP1[l]/=cP1[l];
-	  ZDCP2[l]/=cP2[l];
-	  ZDCN1[l]/=cN1[l];
-	  ZDCN2[l]/=cN2[l];
-	}
-	 
-      ZDCP1Sum=ZDCP1[1]+ZDCP1[2]+ZDCP1[3]+ZDCP1[4];
-      ZDCP2Sum=ZDCP2[1]+ZDCP2[2]+ZDCP2[3]+ZDCP2[4];
-      ZDCN1Sum=ZDCN1[1]+ZDCN1[2]+ZDCN1[3]+ZDCN1[4];
-      ZDCN2Sum=ZDCN2[1]+ZDCN2[2]+ZDCN2[3]+ZDCN2[4];
-
-      hZDCNP1->Fill(ZDCN1[0],ZDCP1[0]);
-      hZDCNP2->Fill(ZDCN2[0],ZDCP2[0]);
-      
-      dP1=ZDCP1Sum-ZDCP1[0];
-      meanP1=(ZDCP1Sum+ZDCP1[0])/2;
-      dN1=ZDCN1Sum-ZDCN1[0];
-      meanN1=(ZDCN1Sum+ZDCN1[0])/2;
-      dP2=ZDCP2Sum-ZDCP2[0];
-      meanP2=(ZDCP2Sum+ZDCP2[0])/2;
-      dN2=ZDCN2Sum-ZDCN2[0];
-      meanN2=(ZDCN2Sum+ZDCN2[0])/2;
-      
-      resP1->Fill(meanP1,dP1);
-      resN1->Fill(meanN1,dN1);
-      resP2->Fill(meanP2,dP2);
-      resN2->Fill(meanN2,dN2);
-    }
-*/
   hcP1_1->Fill(cP1[1]);
   hcP1_2->Fill(cP1[2]);
   hcP1_3->Fill(cP1[3]);
@@ -217,12 +168,6 @@
   hcN2_3->Fill(cN2[3]);
   hcN2_4->Fill(cN2[4]);  
 
-  //ZDCCal12bpass1.root
-  //ZDCCal12bpass2.root
-  //ZDCCal12cpass2.root
-  //ZDCCal12fpass2.root
-  //ZDCCal18ipass1.root
-  
   TFile *Write = new TFile ("PROVACalib12b_kINT7.root", "recreate");
   gStyle->SetOptFit();
   
@@ -242,13 +187,6 @@
   hZDCN2_ch02->Write();
   hZDCN2_ch03->Write();
   hZDCN2_ch04->Write();
-/* hZDCNP1->Write();
-  hZDCNP2->Write();
-  resP1->Write();
-  resN1->Write();
-  resP2->Write();
-  resN2->Write();
-*/
   hcP1_1->Write();
   hcP1_2->Write();
   hcP1_3->Write();
