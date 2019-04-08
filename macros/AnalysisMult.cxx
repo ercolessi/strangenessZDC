@@ -13,9 +13,9 @@ void AnalysisMult(Int_t Period=126)
 
   TFile * Calib;
 
-  if (Period==122)  Calib = new TFile ("PROVACalib12b_kINT7.root");
+  if (Period==122)  Calib = new TFile ("Calib12b.root");
   if (Period==123)  Calib = new TFile ("ZDCCalib_12c.root");
-  if (Period==126)  Calib = new TFile ("LHC12f.root");
+  if (Period==126)  Calib = new TFile ("Calib12f.root");
   if (Period==189)  Calib = new TFile ("ZDCCalib_18i.root");
 
   TH1D * hcP1_1 = (TH1D *)Calib->Get("hcP1_1");
@@ -56,7 +56,7 @@ void AnalysisMult(Int_t Period=126)
 
   //-------------------------------
   TFile* Read;
-  if (Period==122)  Read = new TFile ("LeadingMerged12b_kINT7.root");
+  if (Period==122)  Read = new TFile ("LeadingMerged12b.root");
   if (Period==123)  Read = new TFile ("LeadingMerged12c.root");
   if (Period==126)  Read = new TFile ("LeadingMerged12f.root");
   if (Period==189)  Read = new TFile ("LeadingMerged18i.root");
@@ -133,7 +133,7 @@ void AnalysisMult(Int_t Period=126)
   TH2D * hZDCP2= new TH2D("hZDCP2",";ZDCP2[0];ZDCP2Sum;",bin,-1,4000,bin,-1,4000);
   TH2D * hZDCN1= new TH2D("hZDCN1",";ZDCN1[0];ZDCN1Sum;",bin,-1,4000,bin,-1,4000);
   TH2D * hZDCN2= new TH2D("hZDCN2",";ZDCN2[0];ZDCN2Sum;",bin,-1,4000,bin,-1,4000);
-  TH2D * resP1= new TH2D("resP1","Resolution P1;sum-common;(sum+common)/2;",bin,-1,4000,bin,-2000,2000);
+  TH2D * resP1= new TH2D("resP1","Resolution P1;sum-common;(sum+common)/2;",100,-1,4000,bin,-2000,2000);
   TH2D * resN1= new TH2D("resN1","Resolution N1;sum-common;sum+comm /2;",bin,-1,4000,bin,-2000,2000);
   TH2D * resP2= new TH2D("resP2","Resolution P2;sum-common;(sum+common)/2;",bin,-1,4000,bin,-2000,2000);
   TH2D * resN2= new TH2D("resN2","Resolution N2;sum-common;sum+comm /2 ;",bin,-1,4000,bin,-2000,2000);
@@ -238,22 +238,41 @@ void AnalysisMult(Int_t Period=126)
    
    //Write on root file
    TFile* Write;
-   if (Period==122)  Write = new TFile ("PROVA12b_kINT7.root", "recreate");   
+   if (Period==122)  Write = new TFile ("LHC12b.root", "recreate");   
    if (Period==123)  Write = new TFile ("LHC12c.root", "recreate");   
-   if (Period==126)  Write = new TFile ("PROVALHC12f.root", "recreate");   
+   if (Period==126)  Write = new TFile ("LHC12f.root", "recreate");   
    if (Period==189)  Write = new TFile ("LHC18i.root", "recreate");
    gStyle->SetOptFit();
 
    TF1* gaus = new TF1 ("gaus", "gaus", -1000,1000);
+
+   hZDCNP1->Write();
+   hZDCNP2->Write();
+   resP1->Write();   
    resP1->FitSlicesY(gaus);
    TH1D * resP1_1 = (TH1D*)gDirectory->Get("resP1_1");
    resP1_1->Write();
-   hZDCNP1->Write();
-   hZDCNP2->Write();
-   resP1->Write();
+   TH1D * resP1_2 = (TH1D*)gDirectory->Get("resP1_2"); 
+   resP1_2->Write();
    resN1->Write();
+   resN1->FitSlicesY(gaus);
+   TH1D * resN1_1 = (TH1D*)gDirectory->Get("resN1_1");
+   resN1_1->Write();
+   TH1D * resN1_2 = (TH1D*)gDirectory->Get("resN1_2");
+   resN1_2->Write();
    resP2->Write();
+   resP2->FitSlicesY(gaus);
+   TH1D * resP2_1 = (TH1D*)gDirectory->Get("resP2_1");
+   resP2_1->Write();
+   TH1D * resP2_2 = (TH1D*)gDirectory->Get("resP2_2");
+   resP2_2->Write();
    resN2->Write();
+   resN2->FitSlicesY(gaus);
+   TH1D * resN2_1 = (TH1D*)gDirectory->Get("resN2_1");
+   resN2_1->Write();
+   TH1D * resN2_2 = (TH1D*)gDirectory->Get("resN2_2");
+   resN2_2->Write();
+   
    hZDCP1->Write();
    hZDCP2->Write();
    hZDCN1->Write();
@@ -340,7 +359,7 @@ void AnalysisMult(Int_t Period=126)
    totCV0C->ProfileX()->Write();
   
    totAV0M->Write();
-   totAV0M ->ProfileY()->Write();
+   totAV0M->ProfileY()->Write();
    totAV0M->ProfileX()->Write();
    
    totAeta8->Write();
