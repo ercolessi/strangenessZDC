@@ -1,6 +1,6 @@
 {
   
-  TFile * Read = new TFile ("LeadingMerged12f.root");
+  TFile * Read = new TFile ("18ipass1.root");
   TTree * T = (TTree *)Read->Get("tEvents");
   
   Int_t bin = 1000;
@@ -168,7 +168,7 @@
   hcN2_3->Fill(cN2[3]);
   hcN2_4->Fill(cN2[4]);  
 
-  TFile *Write = new TFile ("Calib12f.root", "recreate");
+  TFile *Write = new TFile ("Calib18i.root", "recreate");
   gStyle->SetOptFit();
   
   hZDCP1_ch01->Write();
