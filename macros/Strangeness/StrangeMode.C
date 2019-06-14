@@ -120,8 +120,15 @@ void StrangeMode(Int_t Period)
     gROOT->LoadMacro("AliAnalysisTaskLeading.cxx++g");
     gROOT->LoadMacro("AddTaskLeading.C"); // eventually include the compilation of own task
     AliAnalysisTaskLeading *task = AddTaskLeading();
-    TString n("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC18i.root");
-    task->SetZDCFileName(n);
+        if(Period==122) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC12b.root");
+    if(Period==123) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC12c.root");
+    if(Period==126) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC12f.root");
+    if(Period==189) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC18i.root");
+    if(Period==129) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC12i.root");
+    if(Period==1710) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC17j.root");
+    if(Period==168) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC16h.root");
+    if(Period==158) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC15h.root");
+    if(Period==156) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC15f.root");
     if(isMC) task->SetMC();
     else if(isMCdata){
       task->SetMCdata();
