@@ -26,14 +26,9 @@
 #include "AliMultSelection.h"
 #include "AliMultSelectionTask.h"
 #include "AddTaskPhysicsSelection.h"
-#include "AliAnalysisTask.h"
-#include "AliPhysicsSelectionTask.h"
-#include "AliAnalysisTaskPIDResponse.h"
-#include "AliAnalysisTaskWeakDecayVertexer.h"
-#include "AliAnalysisTaskStrangenessVsMultiplicityRun2.h"
 #endif
 
-void runMode(Int_t Period)
+void runMerge(Int_t Period)
   
 {
   // if you need to access data remotely from the GRID
@@ -80,15 +75,11 @@ void runMode(Int_t Period)
     mgr->SetMCtruthEventHandler(mcH);
   }  
 
-  //Forward Multiplicity
-  gROOT->LoadMacro("$ALICE_PHYSICS/PWGLF/FORWARD/analysis2/AddTaskForwardMult.C");
-  AliAnalysisTask* fw = AddTaskForwardMult(0.);
-
   //PhysicsSelection Configuration
   gROOT->LoadMacro("$ALICE_PHYSICS/OADB/macros/AddTaskPhysicsSelection.C");
   AliPhysicsSelectionTask* ps = AddTaskPhysicsSelection(kFALSE, kTRUE);
   //Signature: Bool_t mCAnalysisFlag, Bool_t applyPileupCuts
-  
+
   //MultSelection
   gROOT->LoadMacro("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C");
   AliMultSelectionTask* ms = AddTaskMultSelection(isMultCalib);
@@ -96,26 +87,15 @@ void runMode(Int_t Period)
   if(Period==123) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC12c-MB.root");
   if(Period==126) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC12f-MB.root");
   if(Period==189) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC18i-MB.root");
-  if(Period==129) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC12i-MB.root");
+   if(Period==129) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC12i-MB.root");
   if(Period==1710) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC17j-MB.root");
   if(Period==168) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC16h-MB.root");
   if(Period==158) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15h-MB.root");
   if(Period==156) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15f-MB.root");
-  ms->SetSelectedTriggerClass(AliVEvent::kINT7 | AliVEvent::kMB | AliVEvent::kINT5); // kINT7 is default, this is OK for Run2; in LHC10h you need kMB
 
-  //PID Response
-  gROOT->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
-  AliAnalysisTaskPIDResponse* pid = AddTaskPIDResponse(0.);
-  
-  //Weak Decay Vertexer
-  gROOT->LoadMacro("AliAnalysisTaskWeakDecayVertexer.cxx++g");
-  gROOT->LoadMacro("AddTaskWeakDecayVertexer.C");
-  AliAnalysisTaskWeakDecayVertexer * wv = AddTaskWeakDecayVertexer();
-  wv-> SetPreselectDedx(kTRUE);
-  wv-> SetPreselectDedxLambda(kTRUE);
-  wv-> SetExtraCleanup(kTRUE);
-  
-  //MyTask
+  ms->SetSelectedTriggerClass(AliVEvent::kINT7 | AliVEvent::kMB | AliVEvent::kINT5 ); // kINT7 is default, this is OK for Run2; in LHC10h you need kMB
+
+  // compile my own code
   if(!isMultCalib){
     gROOT->LoadMacro("AliAnalysisTaskLeading.cxx++g");
     gROOT->LoadMacro("AddTaskLeading.C"); // eventually include the compilation of own task
@@ -125,17 +105,7 @@ void runMode(Int_t Period)
       task->SetMCdata();
     }
   }
-  
-  //Strangness Task
-  gROOT->LoadMacro("AliAnalysisTaskStrangenessVsMultiplicityRun2.cxx++g");
-  gROOT->LoadMacro("AddTaskStrangenessVsMultiplicityRun2.C");
-  AliAnalysisTaskStrangenessVsMultiplicityRun2* st = AddTaskStrangenessVsMultiplicityRun2(1,1,1,"ABC");
-  st->SetDownScaleV0(kTRUE, 1.0);
-  st->SetDownScaleCascade(kTRUE, 1.0);
-  st->SetUseExtraEvSels(kFALSE);
-  st->SetRunVertexers(kFALSE);
-  st->SetUseLightVertexers(kFALSE);
-  
+
   if(!mgr->InitAnalysis()) return;
   mgr->SetDebugLevel(2);
   mgr->PrintStatus();
@@ -152,7 +122,6 @@ void runMode(Int_t Period)
       //alienHandler->SetROOTVersion("v5-26-00b-6");
       // alienHandler->SetAliROOTVersion("v4-19-21-AN");
       alienHandler->SetAliPhysicsVersion("vAN-20190109-1");   
-      alienHandler->SetAnalysisMacro("AnalysisLeading.C"); 
 
       // number of files per subjob
       alienHandler->SetSplitMaxInputFileNumber(30);
@@ -173,23 +142,23 @@ void runMode(Int_t Period)
       alienHandler->SetSplitMode("se");
        
       // make sure your source files get copied to grid
-      alienHandler->SetAdditionalLibs("AliAnalysisTaskLeading.cxx AliAnalysisTaskLeading.h AliAnalysisTaskStrangenessVsMultiplicityRun2.cxx AliAnalysisTaskStrangenessVsMultiplicityRun2.h AliAnalysisTaskWeakDecayVertexer.cxx AliAnalysisTaskWeakDecayVertexer.h");
-      alienHandler->SetAnalysisSource("AliAnalysisTaskLeading.cxx AliAnalysisTaskStrangenessVsMultiplicityRun2.cxx AliAnalysisTaskWeakDecayVertexer.cxx");
+      alienHandler->SetAdditionalLibs("AliAnalysisTaskLeading.cxx AliAnalysisTaskLeading.h");
+      alienHandler->SetAnalysisSource("AliAnalysisTaskLeading.cxx");
       
       //Declare input data to be processed.
       //Method 1: Create automatically XML collections using alien 'find' command.
 
-       //LHC12b-----------------------------------------------
+       //LHC12b_KMB-----------------------------------------------
       if (Period==122){
 	// select the input data
 	alienHandler->SetGridDataDir("/alice/data/2012/LHC12b/");
 	alienHandler->SetRunPrefix("000");
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
-	Int_t runList[10] = {/*177798, 177799, 177802, 177804, 177805, 177810, 177858, 177860, 177861, 177864, 177866, 177869, 177938, 177942,*/ 178018, 178024, 178025, 178026, 178028, 178029, 178030, 178031, 178052, 178053 /*,178163, 178167*/};
-	for (Int_t i= 0;i <1; i++) alienHandler->AddRunNumber(runList[i]);
+	Int_t runList[26] = {/*177798, 177799, 177802, 177804, 177805, 177810, 177858, 177860, 177861, 177864, 177866, 177869, 177938, 177942,*/ 178018, 178024, 178025, 178026, 178028, 178029, 178030, 178031, 178052, 178053/*, 178163, 178167*/};
+	for (Int_t i= 0;i <10; i++) alienHandler->AddRunNumber(runList[i]);
 	
-	alienHandler->SetGridWorkingDir("AnalysisLeading2019/TreeGeneration/test_Strangness/");
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/TreeGeneration/12bpass2_pt2/");
       }
 
       //LHC12c----------------------------------------------
@@ -200,7 +169,7 @@ void runMode(Int_t Period)
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
 	Int_t runList[95] = {179569, 179571, 179584, 179585, 179591, 179618, 179621, 179638, 179639, 179796, 179802, 179803, 179806, 179837, 179858, 179859, 179916, 179917, 179918, 179919, 179920, 180000, 180042, 180044, 180127, 180129, 180130, 180131, 180132, 180133, 180195, 180199, 180200, 180201, 180230, 180500, 180501, 180507, 180510, 180512, 180515, 180517, 180561, 180562, 180564, 180566, 180567, 180569, 180716, 180717, 180719, 180720, 181617, 181618, 181619, 181620, 181652, 181694, 181698, 181701, 181703, 182017, 182018, 182022, 182023, 182110, 182111, 182207, 182289, 182295, 182297, 182299, 182300, 182302, 182322, 182323, 182324, 182325, 182509, 182513, 182624, 182635, 182684, 182686, 182687, 182691, 182692, 182724, 182725, 182728, 182729, 182730, 182740, 182741, 182744};
-	for (Int_t i= 80;i <95; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i=0;i <95; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/TreeGeneration/12cpass2/");
       }
@@ -213,7 +182,7 @@ void runMode(Int_t Period)
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
 	Int_t runList[10] = {187749, 187785, 188025, 188027, 188028, 188029, 188093, 188101, 188108, 188123};
-	for (Int_t i= 1;i <10; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i= 0;i <10; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/TreeGeneration/12fpass2/");
       }
@@ -240,10 +209,10 @@ void runMode(Int_t Period)
 	alienHandler->SetRunPrefix("000");
 	alienHandler->SetDataPattern("/pass1/*/AliESDs.root");
 	// runnumber
-	Int_t runList[10] = {274593,  274594, 274595, 274596, 274601, 274653, 274657, 274667, 274669, 274671};
+	Int_t runList[10] = {274593, 274594, 274595, 274596, 274601, 274653, 274657, 274667, 274669, 274671};
 	for (Int_t i= 0;i<1; i++) alienHandler->AddRunNumber(runList[i]);
 	
-	alienHandler->SetGridWorkingDir("AnalysisLeading2019/TreeGeneration/17jpass1_testStrangness/");
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/TreeGeneration/17jpass1/");
       }
 
            //LHC16h---------------------------------------------
@@ -285,6 +254,7 @@ void runMode(Int_t Period)
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/TreeGeneration/15fpass2/");
       }
        
+
        //LHC18i---------------------------------------------
        if (Period==189){
 	// select the input data
@@ -298,14 +268,13 @@ void runMode(Int_t Period)
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/TreeGeneration/18ipass1/");
       }
                    
-      
       // define the output folder
       alienHandler->SetGridOutputDir("OutputDir");
       alienHandler->SetDefaultOutputs();
       
       //number of times to merge (if a lot of data need a higher number)
       alienHandler->SetMaxMergeStages(5);
-      //alienHandler->SetSplitMaxInputFileNumber(150);
+      //alienHandler->SetSplitMaxInputFileNumber(25);
       // we can specify that we want to, later on, use Grid to also merge
       // our output. to enable this, we will set 'SetMergeViaJDL' to kTRUE
       alienHandler->SetMergeViaJDL(kTRUE);
@@ -323,13 +292,13 @@ void runMode(Int_t Period)
 	// and launch the analysis
 	// Set the run mode (can be "full", "test", "offline", "submit" or "terminate")
 	alienHandler->SetRunMode("test");
-	cout<<"done" << "\n\n" ;
+	
 	mgr->StartAnalysis("grid");
 	
       } else
 	{
 	  //full grid      
-	  alienHandler->SetRunMode("terminate");
+	  alienHandler->SetRunMode("full");
 	  mgr->StartAnalysis("grid");
 	}
       
