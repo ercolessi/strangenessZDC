@@ -250,9 +250,9 @@ void StrangeMode(Int_t Period)
 	alienHandler->SetDataPattern("/pass1/*/AliESDs.root");
 	// runnumber
 	Int_t runList[10] = {274593,  274594, 274595, 274596, 274601, 274653, 274657, 274667, 274669, 274671};
-	for (Int_t i= 0;i<1; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i= 0;i<10; i++) alienHandler->AddRunNumber(runList[i]);
 	
-	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/17jpass1_testStrangness/");
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/17jpass1/");
       }
 
            //LHC16h---------------------------------------------
@@ -314,7 +314,7 @@ void StrangeMode(Int_t Period)
       
       //number of times to merge (if a lot of data need a higher number)
       alienHandler->SetMaxMergeStages(5);
-      //alienHandler->SetSplitMaxInputFileNumber(150);
+      alienHandler->SetSplitMaxInputFileNumber(20);
       // we can specify that we want to, later on, use Grid to also merge
       // our output. to enable this, we will set 'SetMergeViaJDL' to kTRUE
       alienHandler->SetMergeViaJDL(kTRUE);
