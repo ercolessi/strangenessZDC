@@ -36,7 +36,7 @@
 #include "AliMultSelectionTask.h"
 
 ClassImp(AliAnalysisTaskLeading)
-
+Float_t AliAnalysisTaskLeading::fZDCCentrality;
 //________________________________________________________________________
 AliAnalysisTaskLeading::AliAnalysisTaskLeading(const char *name) 
 :     AliAnalysisTaskSE(name), fESD(0), fIsMC(kFALSE),fIsMCdata(kFALSE), fStart(0), fNtrack(0), fPV(0), lV0M(300)
@@ -214,6 +214,7 @@ void AliAnalysisTaskLeading::UserCreateOutputObjects()
   fTevents->Branch("V0MEstimator_abs",&AbsV0MEstimator,"V0MEstimator_abs/F");
   fTevents->Branch("V0AEstimator_abs",&AbsV0AEstimator,"V0AEstimator_abs/F");
   fTevents->Branch("V0CEstimator_abs",&AbsV0CEstimator,"V0CEstimator_abs/F");
+  fTevents->Branch("fZDCCentrality",&fZDCCentrality,"fZDCCentrality/F");
 
 
   if(fIsMC){
@@ -352,7 +353,17 @@ void AliAnalysisTaskLeading::UserExec(Option_t *)
       if(inputHandler->IsEventSelected() & bit) htriggerMask[1]->Fill(i);
     }
   }
-   
+
+  TFile* fileZDCCentrality = 0x0;
+  fileZDCCentrality = TFile::Open(fZDCfilename.Data());
+  if(fZDCfilename.Data()==""){AliWarning("ZDCfilename not found!");};
+  TH1F * hCumulative = (TH1F *)fileZDCCentrality->Get("hCumulative");
+ 
+  Double_t Sum = TMath::Log10(TMath::Abs(fadcZDCN1[0]+fadcZDCN2[0]+fadcZDCP1[0]+fadcZDCP2[0]));
+  if (Sum!=0) {
+    fZDCCentrality =100*(hCumulative->Interpolate(Sum));
+  } else fZDCCentrality=-1;
+ 
   AliMultSelection* MultSelection = 0x0;
   MultSelection = (AliMultSelection*)fESD->FindListObject("MultSelection");
   //MultSelection->GetEstimatorList()->ls();

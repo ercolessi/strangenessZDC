@@ -10,7 +10,7 @@ class TH1D;
 class TH1F;
 class TH2D;
 
-#include "AliAnalysisTaskSE.h"
+//#include "AliAnalysisTaskSE.h"
 #include "AliMultSelection.h"
 #include "AliMultSelectionTask.h"
 
@@ -27,13 +27,20 @@ class AliAnalysisTaskLeading : public AliAnalysisTaskSE {
   Int_t GetNTh1d(){return (fNth1d+fNth1dMC);};
   Int_t GetNTh2d(){return fNth2d;};
   Int_t GetNTree(){return fNtree;};
+  static Float_t GetZDCCentrality(){return fZDCCentrality;};
+  void SetZDCFileName(TString name=""){
+    fZDCfilename = name;
+  };
+
   const char *GetNameList(Int_t iList) const {if(iList >= 0 && iList < fNlist) return fNameList[iList]; else return "NoList";}
 
   //Other methods
   void SetMC(Bool_t mcsw=kTRUE){fIsMC=mcsw;SetMCdata(mcsw);} // set MC switch
   void SetMCdata(Bool_t mcsw=kTRUE); // set MC switch w/o kinematics
 
+
  private: 
+  TString fZDCfilename;
   Bool_t fIsMC,fIsMCdata; // switch if MC data
   Bool_t fStart; //! switch for Exec initialization
   TDatabasePDG *fDB; //!
@@ -69,6 +76,7 @@ class AliAnalysisTaskLeading : public AliAnalysisTaskSE {
   TTree *fTevents; //!
   
   // ZDC
+  static Float_t fZDCCentrality;
   Int_t fRun; //!
   Float_t fZDCN1,fZDCN2,fZDCP1,fZDCP2; //!
   Float_t fadcZDCN1[5],fadcZDCN2[5],fadcZDCP1[5],fadcZDCP2[5]; //!
@@ -106,7 +114,7 @@ class AliAnalysisTaskLeading : public AliAnalysisTaskSE {
   Float_t AbsV0MEstimator;//!
   Float_t AbsV0AEstimator;//!
   Float_t AbsV0CEstimator;//!
-
+ 
 
   AliESDEvent *fESD;    //! ESD object
 
