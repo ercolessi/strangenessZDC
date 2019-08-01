@@ -100,7 +100,9 @@ void StrangeMode(Int_t Period)
   if(Period==1710) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC17j-MB.root");
   if(Period==168) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC16h-MB.root");
   if(Period==158) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15h-MB.root");
-  if(Period==156) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15f-MB.root");
+  if(Period==1561) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15f-pt1MB.root");
+  if(Period==1562) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15f-pt2MB.root");
+  if(Period==1563) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15f-pt3MB.root");
   ms->SetSelectedTriggerClass(AliVEvent::kINT7 | AliVEvent::kMB | AliVEvent::kINT5); // kINT7 is default, this is OK for Run2; in LHC10h you need kMB
 
   //PID Response
@@ -119,8 +121,8 @@ void StrangeMode(Int_t Period)
   if(!isMultCalib){
     gROOT->LoadMacro("AliAnalysisTaskLeading.cxx++g");
     gROOT->LoadMacro("AddTaskLeading.C"); // eventually include the compilation of own task
-    AliAnalysisTaskLeading *task = AddTaskLeading();
-        if(Period==122) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC12b.root");
+    AliAnalysisTaskLeading *task = AddTaskLeading();   
+    if(Period==122) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC12b.root");
     if(Period==123) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC12c.root");
     if(Period==126) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC12f.root");
     if(Period==189) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC18i.root");
@@ -128,7 +130,10 @@ void StrangeMode(Int_t Period)
     if(Period==1710) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC17j.root");
     if(Period==168) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC16h.root");
     if(Period==158) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC15h.root");
-    if(Period==156) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC15f.root");
+    if(Period==1561) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC15f.root");
+    if(Period==1562) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC15f.root");
+    if(Period==1563) task->SetZDCFileName("alien:///alice/cern.ch/user/f/fercoles/DataFiles/EZDC15f.root");
+
     if(isMC) task->SetMC();
     else if(isMCdata){
       task->SetMCdata();
@@ -164,7 +169,7 @@ void StrangeMode(Int_t Period)
       alienHandler->SetAnalysisMacro("AnalysisLeading.C"); 
 
       // number of files per subjob
-      alienHandler->SetSplitMaxInputFileNumber(20);
+      //alienHandler->SetSplitMaxInputFileNumber(5);
       //set Executable
       alienHandler->SetExecutable("runLeadingESD.sh");
       //specify how many seconds your job may take
@@ -250,9 +255,9 @@ void StrangeMode(Int_t Period)
 	alienHandler->SetDataPattern("/pass1/*/AliESDs.root");
 	// runnumber
 	Int_t runList[10] = {274593,  274594, 274595, 274596, 274601, 274653, 274657, 274667, 274669, 274671};
-	for (Int_t i= 0;i<10; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i= 0;i<1; i++) alienHandler->AddRunNumber(runList[i]);
 	
-	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/17jpass1/");
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/17jpass1_testStrangness/");
       }
 
            //LHC16h---------------------------------------------
@@ -275,24 +280,51 @@ void StrangeMode(Int_t Period)
 	alienHandler->SetRunPrefix("000");
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
-	Int_t runList[6] = {233912, 233969, 233971, 233972, 233975, 233976};
-	for (Int_t i= 0;i <6; i++) alienHandler->AddRunNumber(runList[i]);
+	Int_t runList[5] = {233912, 233971, 233972, 233975, 233976};
+	for (Int_t i= 0;i <1; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/15hpass2/");
       }
           
            //LHC15f---------------------------------------------
-       if (Period==156){
+      if (Period==1561){
 	// select the input data
 	alienHandler->SetGridDataDir("/alice/data/2015/LHC15f/");
 	alienHandler->SetRunPrefix("000");
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
-	Int_t runList[58] = {225016, 225026, 225031, 225035, 225037, 225041, 225043, 225050, 225051, 225052, 225105, 225106, 225305, 225307, 225309, 225310, 225313, 225314, 225315, 225322, 225576, 225578, 225579, 225580, 225582, 225586, 225587, 225589, 225609, 225611, 225705, 225707, 225708, 225709, 225710, 225716, 225717, 225719, 226062, 226085, 226175, 226176, 226177, 226208, 226210, 226212, 226217, 226220, 226225, 226444, 226445, 226452, 226466, 226468, 226472, 226483, 226495, 226500};
-	for (Int_t i= 0;i <58; i++) alienHandler->AddRunNumber(runList[i]);
+	Int_t runList[23] = {225322,225031,225310,225106,225315,225307,225314,225041,225016,225037,225050,225043,225105,225026,225035,225305,225052,225313,225051,225309,225576,225587,225582};
+	for (Int_t i= 0;i <23; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/15fpass2/");
       }
+       
+
+       if (Period==1562){
+	// select the input data
+	alienHandler->SetGridDataDir("/alice/data/2015/LHC15f/");
+	alienHandler->SetRunPrefix("000");
+	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
+	// runnumber
+
+	Int_t runList[18] = {226483,226472, 225609, 226177, 225719, 226208, 226445, 226468, 225586, 226212, 225705, 225716, 225589, 225710, 226444, 226495, 226500, 226220};
+	for (Int_t i= 10;i <18; i++) alienHandler->AddRunNumber(runList[i]);
+	
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/15fpass2/");
+      }
+
+        if (Period==1563){
+	// select the input data
+	alienHandler->SetGridDataDir("/alice/data/2015/LHC15f/");
+	alienHandler->SetRunPrefix("000");
+	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
+	// runnumber
+	Int_t runList[15] = { 225579, 226176, 226062, 225578, 226175, 225708, 225580, 225709, 226452, 225717, 226466, 225707, 225611, 226210, 226225};
+	for (Int_t i= 0;i <15; i++) alienHandler->AddRunNumber(runList[i]);
+	
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/15fpass2/");
+      }
+
        
        //LHC18i---------------------------------------------
        if (Period==189){
@@ -302,7 +334,7 @@ void StrangeMode(Int_t Period)
 	alienHandler->SetDataPattern("/pass1/*/AliESDs.root");
 	// runnumber
 	Int_t runList[10] = {288861, 288862, 288863, 288864, 288868, 288897, 288902, 288903, 288908, 288909};
-	for (Int_t i= 2;i <6; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i= 0;i <10; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/18ipass1/");
       }
@@ -314,7 +346,7 @@ void StrangeMode(Int_t Period)
       
       //number of times to merge (if a lot of data need a higher number)
       alienHandler->SetMaxMergeStages(5);
-      alienHandler->SetSplitMaxInputFileNumber(20);
+      alienHandler->SetSplitMaxInputFileNumber(10);
       // we can specify that we want to, later on, use Grid to also merge
       // our output. to enable this, we will set 'SetMergeViaJDL' to kTRUE
       alienHandler->SetMergeViaJDL(kTRUE);
