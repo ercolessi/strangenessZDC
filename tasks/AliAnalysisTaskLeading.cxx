@@ -102,8 +102,13 @@ void AliAnalysisTaskLeading::UserCreateOutputObjects()
    for(Int_t i=0;i<32;i++) {
      htriggerMask[1]->Fill(xaxisTitle[i],0);
    }
-   
 
+   //ZDC File
+   TFile* fileZDCCentrality = 0x0;
+   fileZDCCentrality = TFile::Open(fZDCfilename.Data());
+   if(fZDCfilename.Data()==""){AliWarning("ZDCfilename not found!");};
+   fhCumulative = (TH1F *)fileZDCCentrality->Get("hCumulative");
+   
   // fill with the trigger label
   fHTrigger->Fill("events",0);
   fHTrigger->Fill("triggered",0);
@@ -354,14 +359,10 @@ void AliAnalysisTaskLeading::UserExec(Option_t *)
     }
   }
 
-  TFile* fileZDCCentrality = 0x0;
-  fileZDCCentrality = TFile::Open(fZDCfilename.Data());
-  if(fZDCfilename.Data()==""){AliWarning("ZDCfilename not found!");};
-  TH1F * hCumulative = (TH1F *)fileZDCCentrality->Get("hCumulative");
- 
+   
   Double_t Sum = TMath::Log10(TMath::Abs(fadcZDCN1[0]+fadcZDCN2[0]+fadcZDCP1[0]+fadcZDCP2[0]));
   if (Sum!=0) {
-    fZDCCentrality =100*(hCumulative->Interpolate(Sum));
+    fZDCCentrality =100*(fhCumulative->Interpolate(Sum));
   } else fZDCCentrality=-1;
  
   AliMultSelection* MultSelection = 0x0;

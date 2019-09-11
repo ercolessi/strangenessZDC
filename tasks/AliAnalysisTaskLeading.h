@@ -59,7 +59,8 @@ class AliAnalysisTaskLeading : public AliAnalysisTaskSE {
   TH1D *fHth1d[fNth1d]; //!
   TH1D *fHTrigger;//!
   TH1D *fHpv;//!
-  TH1D *htriggerMask[2]; //! 
+  TH1D *htriggerMask[2]; //!
+  TH1F *fhCumulative; //!
 
   static const Int_t fNth1dMC = 0;
   //  TH1D *fHth1dMC[fNth1dMC]; //!
