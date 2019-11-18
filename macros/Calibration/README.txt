@@ -13,14 +13,15 @@ Here we calibrate and create a OADB file containing the information about multip
   This will create a folder in you aliensh AnalysisLeading2019/Calibration/Calib**periodfoldername** which contains folders for each run number (/000*runnumber*/) with calibration information on that period
  
 
-2) Run the macro CalibMerge.C 
+2) Run the macro CalibMode.C changing the flag "full" to "terminate" in this line (at the very end):  alienHandler->SetRunMode("full");
+
   testmode) gridtest=KTRUE 
   if you want to test it in local before grid      
                                                  
   gridmode) gridtest=KFALSE      
   in aliroot              
-  >> .L CalibMerge.C   
-  >> CalibMerge(Period)  example for LHC12b  Period=122 (year (12) + b second letter of the alphabet)
+  >> .L CalibMode.C   
+  >> CalibMode(Period)  example for LHC12b  Period=122 (year (12) + b second letter of the alphabet)
 
    This will merge all root files from the subjobs from phase 1 and will create a unique file called AnalysisResults.root for each period
 

@@ -286,7 +286,7 @@ void CalibMode(Int_t Period)
       } else
 	{
 	  //full grid      
-	  alienHandler->SetRunMode("terminate");
+	  alienHandler->SetRunMode("full");
 	  mgr->StartAnalysis("grid");
 	}
       

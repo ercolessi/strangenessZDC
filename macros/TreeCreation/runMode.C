@@ -87,7 +87,7 @@ void runMerge(Int_t Period)
   if(Period==123) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC12c-MB.root");
   if(Period==126) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC12f-MB.root");
   if(Period==189) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC18i-MB.root");
-   if(Period==129) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC12i-MB.root");
+  if(Period==129) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC12i-MB.root");
   if(Period==1710) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC17j-MB.root");
   if(Period==168) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC16h-MB.root");
   if(Period==158) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15h-MB.root");
@@ -196,7 +196,7 @@ void runMerge(Int_t Period)
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
 	Int_t runList[30] = {193007, 193008, 193010, 193011, 193014, 193047, 193049, 193051, 193092, 193093, 193094, 193097, 193148, 193150, 193151, 193152, 193155, 193156, 193184, 193187, 193188, 193189, 193192, 193194, 193750, 193751, 193752, 193758, 193759, 193766};
-	for (Int_t i= 1;i <30; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i= 0;i <30; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/TreeGeneration/12ipass2/");
       }
