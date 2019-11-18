@@ -83,7 +83,7 @@ void CalibMode(Int_t Period)
   //MultSelection
   gROOT->LoadMacro("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C");
   AliMultSelectionTask* ms = AddTaskMultSelection(isMultCalib);
-  ms->SetSelectedTriggerClass(AliVEvent::kINT7); // kINT7 is default, this is OK for Run2; in LHC10h you need kMB
+  ms->SetSelectedTriggerClass(AliVEvent::kINT7 | AliVEvent::kMB | AliVEvent::kINT5); 
 
   // compile my own code
   if(!isMultCalib){
@@ -145,10 +145,10 @@ void CalibMode(Int_t Period)
 	alienHandler->SetRunPrefix("000");
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
-	Int_t runList[26] = {177798, 177799, 177802, 177804, 177805, 177810, 177858, 177860, 177861, 177864, 177866, 177869, 177938, 177942, 178018, 178024, 178025, 178026, 178028, 178029, 178030, 178031, 178052, 178053, 178163, 178167};
-	for (Int_t i= 2;i <26; i++) alienHandler->AddRunNumber(runList[i]);
+	Int_t runList[9] = {/*177798, 177799, 177802, 177804, 177805, 177810, 177858, 177860, 177861, 177864, 177866, 177869, 177938, 177942,*/ 178018, 178024, 178025, 178026, 178028, 178029,/* 178030,*/ 178031, 178052, 178053/*, 178163, 178167*/};
+	for (Int_t i= 0;i <9; i++) alienHandler->AddRunNumber(runList[i]);
 	
-	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Calibration/Calib12bpass2/");
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Calibration/Calib12bpass2_pt2/");
       }
 
       //LHC12c----------------------------------------------
@@ -159,7 +159,7 @@ void CalibMode(Int_t Period)
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
 	Int_t runList[95] = {179569, 179571, 179584, 179585, 179591, 179618, 179621, 179638, 179639, 179796, 179802, 179803, 179806, 179837, 179858, 179859, 179916, 179917, 179918, 179919, 179920, 180000, 180042, 180044, 180127, 180129, 180130, 180131, 180132, 180133, 180195, 180199, 180200, 180201, 180230, 180500, 180501, 180507, 180510, 180512, 180515, 180517, 180561, 180562, 180564, 180566, 180567, 180569, 180716, 180717, 180719, 180720, 181617, 181618, 181619, 181620, 181652, 181694, 181698, 181701, 181703, 182017, 182018, 182022, 182023, 182110, 182111, 182207, 182289, 182295, 182297, 182299, 182300, 182302, 182322, 182323, 182324, 182325, 182509, 182513, 182624, 182635, 182684, 182686, 182687, 182691, 182692, 182724, 182725, 182728, 182729, 182730, 182740, 182741, 182744};
-	for (Int_t i = 30;i < 95; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i = 0;i < 95; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Calibration/Calib12cpass2/");
       }
@@ -177,6 +177,73 @@ void CalibMode(Int_t Period)
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Calibration/Calib12fpass2/");
       }
 
+        
+        //LHC12i--------------------------------------------
+       if (Period==129){
+	// select the input data
+	alienHandler->SetGridDataDir("/alice/data/2012/LHC12i/");
+	alienHandler->SetRunPrefix("000");
+	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
+	// runnumber
+	Int_t runList[30] = {193007, 193008, 193010, 193011, 193014, 193047, 193049, 193051, 193092, 193093, 193094, 193097, 193148, 193150, 193151, 193152, 193155, 193156, 193184, 193187, 193188, 193189, 193192, 193194, 193750, 193751, 193752, 193758, 193759, 193766};
+	for (Int_t i= 0;i <30; i++) alienHandler->AddRunNumber(runList[i]);
+	
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Calibration/Calib12ipass2/");
+      }
+
+        //LHC17j---------------------------------------------
+       if (Period==1710){
+	// select the input data
+	alienHandler->SetGridDataDir("/alice/data/2017/LHC17j/");
+	alienHandler->SetRunPrefix("000");
+	alienHandler->SetDataPattern("/pass1/*/AliESDs.root");
+	// runnumber
+	Int_t runList[10] = {274593, 274594, 274595, 274596, 274601, 274653, 274657, 274667, 274669, 274671};
+	for (Int_t i= 0;i<10; i++) alienHandler->AddRunNumber(runList[i]);
+	
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Calibration/Calib17jpass1/");
+      }
+
+           //LHC16h---------------------------------------------
+       if (Period==168){
+	// select the input data
+	alienHandler->SetGridDataDir("/alice/data/2016/LHC16h/");
+	alienHandler->SetRunPrefix("000");
+	alienHandler->SetDataPattern("/pass1/*/AliESDs.root");
+	// runnumber
+	Int_t runList[11] = {254378, 254381, 254394, 254395, 254396, 254476, 254479, 255008, 255009, 255010, 255011};
+	for (Int_t i= 0;i <11; i++) alienHandler->AddRunNumber(runList[i]);
+	
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Calibration/Calib16hpass1/");
+      }
+          
+           //LHC15h---------------------------------------------
+       if (Period==158){
+	// select the input data
+	alienHandler->SetGridDataDir("/alice/data/2015/LHC15h/");
+	alienHandler->SetRunPrefix("000");
+	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
+	// runnumber
+	Int_t runList[6] = {233912, 233969, 233971, 233972, 233975, 233976};
+	for (Int_t i= 0;i <6; i++) alienHandler->AddRunNumber(runList[i]);
+	
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Calibration/Calib15hpass2/");
+      }
+          
+           //LHC15f---------------------------------------------
+       if (Period==156){
+	// select the input data
+	alienHandler->SetGridDataDir("/alice/data/2015/LHC15f/");
+	alienHandler->SetRunPrefix("000");
+	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
+	// runnumber
+	Int_t runList[58] = {225016, 225026, 225031, 225035, 225037, 225041, 225043, 225050, 225051, 225052, 225105, 225106, 225305, 225307, 225309, 225310, 225313, 225314, 225315, 225322, 225576, 225578, 225579, 225580, 225582, 225586, 225587, 225589, 225609, 225611, 225705, 225707, 225708, 225709, 225710, 225716, 225717, 225719, 226062, 226085, 226175, 226176, 226177, 226208, 226210, 226212, 226217, 226220, 226225, 226444, 226445, 226452, 226466, 226468, 226472, 226483, 226495, 226500};
+	for (Int_t i= 0;i <58; i++) alienHandler->AddRunNumber(runList[i]);
+	
+	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Calibration/Calib15fpass2/");
+      }
+          
+             
        //LHC18i---------------------------------------------
        if (Period==189){
 	// select the input data
@@ -219,7 +286,7 @@ void CalibMode(Int_t Period)
       } else
 	{
 	  //full grid      
-	  alienHandler->SetRunMode("full");
+	  alienHandler->SetRunMode("terminate");
 	  mgr->StartAnalysis("grid");
 	}
       
