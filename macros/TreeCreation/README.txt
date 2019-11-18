@@ -29,3 +29,4 @@ Here we create Tree with information from ZDCs and multiplicity estimators.
 3) Run the macro DoMerge.C and merge in one file all root files from all the run numbers for one period and download it in local
 
  
+4) Run the macro ZDCCalibration.cxx to obtain the calibration file analogous to the OADB which contains the ZDC percentile  
