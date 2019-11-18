@@ -103,7 +103,7 @@ void StrangeMode(Int_t Period)
   if(Period==1561) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15f-pt1MB.root");
   if(Period==1562) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15f-pt2MB.root");
   if(Period==1563) ms->SetAlternateOADBFullManualBypass("alien:///alice/cern.ch/user/f/fercoles/DataFiles/OADB-LHC15f-pt3MB.root");
-  ms->SetSelectedTriggerClass(AliVEvent::kINT7 | AliVEvent::kMB | AliVEvent::kINT5); // kINT7 is default, this is OK for Run2; in LHC10h you need kMB
+  ms->SetSelectedTriggerClass(AliVEvent::kINT7 | AliVEvent::kMB | AliVEvent::kINT5); 
 
   //PID Response
   gROOT->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
@@ -214,7 +214,7 @@ void StrangeMode(Int_t Period)
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
 	Int_t runList[95] = {179569, 179571, 179584, 179585, 179591, 179618, 179621, 179638, 179639, 179796, 179802, 179803, 179806, 179837, 179858, 179859, 179916, 179917, 179918, 179919, 179920, 180000, 180042, 180044, 180127, 180129, 180130, 180131, 180132, 180133, 180195, 180199, 180200, 180201, 180230, 180500, 180501, 180507, 180510, 180512, 180515, 180517, 180561, 180562, 180564, 180566, 180567, 180569, 180716, 180717, 180719, 180720, 181617, 181618, 181619, 181620, 181652, 181694, 181698, 181701, 181703, 182017, 182018, 182022, 182023, 182110, 182111, 182207, 182289, 182295, 182297, 182299, 182300, 182302, 182322, 182323, 182324, 182325, 182509, 182513, 182624, 182635, 182684, 182686, 182687, 182691, 182692, 182724, 182725, 182728, 182729, 182730, 182740, 182741, 182744};
-	for (Int_t i= 80;i <95; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i= 0;i <95; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/12cpass2/");
       }
@@ -241,7 +241,7 @@ void StrangeMode(Int_t Period)
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
 	Int_t runList[30] = {193007, 193008, 193010, 193011, 193014, 193047, 193049, 193051, 193092, 193093, 193094, 193097, 193148, 193150, 193151, 193152, 193155, 193156, 193184, 193187, 193188, 193189, 193192, 193194, 193750, 193751, 193752, 193758, 193759, 193766};
-	for (Int_t i= 1;i <30; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i= 0;i <30; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/12ipass2/");
       }
@@ -255,7 +255,7 @@ void StrangeMode(Int_t Period)
 	alienHandler->SetDataPattern("/pass1/*/AliESDs.root");
 	// runnumber
 	Int_t runList[10] = {274593,  274594, 274595, 274596, 274601, 274653, 274657, 274667, 274669, 274671};
-	for (Int_t i= 0;i<1; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i= 0;i<10; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/17jpass1_testStrangness/");
       }
@@ -281,7 +281,7 @@ void StrangeMode(Int_t Period)
 	alienHandler->SetDataPattern("/pass2/*/AliESDs.root");
 	// runnumber
 	Int_t runList[5] = {233912, 233971, 233972, 233975, 233976};
-	for (Int_t i= 0;i <1; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i= 0;i <5; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/15hpass2/");
       }
@@ -308,7 +308,7 @@ void StrangeMode(Int_t Period)
 	// runnumber
 
 	Int_t runList[18] = {226483,226472, 225609, 226177, 225719, 226208, 226445, 226468, 225586, 226212, 225705, 225716, 225589, 225710, 226444, 226495, 226500, 226220};
-	for (Int_t i= 10;i <18; i++) alienHandler->AddRunNumber(runList[i]);
+	for (Int_t i= 0;i <18; i++) alienHandler->AddRunNumber(runList[i]);
 	
 	alienHandler->SetGridWorkingDir("AnalysisLeading2019/Strangeness/15fpass2/");
       }
