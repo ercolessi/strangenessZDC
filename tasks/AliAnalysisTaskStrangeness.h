@@ -294,6 +294,24 @@ private:
 //   Variables for Event Tree
 //===========================================================================================
     Float_t fZDCpercentile;//!
+    Float_t fZNApp;//!
+    Float_t fZNCpp;//!
+    Float_t fZNACpp;//!
+    Float_t fZPApp;//!
+    Float_t fZPCpp;//!
+    Float_t fZPACpp;//!
+    Float_t fZPNApp;//!
+    Float_t fZPNCpp;//!
+    Float_t fZPNACpp;//!
+    Float_t fZNAppTower;//!
+    Float_t fZNCppTower;//!
+    Float_t fZNACppTower;//!
+    Float_t fZPAppTower;//!
+    Float_t fZPCppTower;//!
+    Float_t fZPACppTower;//!
+    Float_t fZPNAppTower;//!
+    Float_t fZPNCppTower;//!
+    Float_t fZPNACppTower;//!
     Float_t fCentrality; //!
     Bool_t fMVPileupFlag; //!
     Bool_t fOOBPileupFlag; //!
@@ -406,6 +424,15 @@ private:
 
     //Event Multiplicity Variables
     Float_t fTreeVariableCentrality; //!
+    Float_t fTreeVariableZNApp;//!
+    Float_t fTreeVariableZNCpp;//!
+    Float_t fTreeVariableZNACpp;//!
+    Float_t fTreeVariableZPApp;//!
+    Float_t fTreeVariableZPCpp;//!
+    Float_t fTreeVariableZPACpp;//!
+    Float_t fTreeVariableZPNApp;//!
+    Float_t fTreeVariableZPNCpp;//!
+    Float_t fTreeVariableZPNACpp;//!
     Bool_t fTreeVariableMVPileupFlag; //!
     Bool_t fTreeVariableOOBPileupFlag; //!
     
@@ -602,6 +629,15 @@ private:
 
     //Event Multiplicity Variables
     Float_t fTreeCascVarCentrality; //!
+    Float_t fTreeCascVarZNApp;//!
+    Float_t fTreeCascVarZNCpp;//!
+    Float_t fTreeCascVarZNACpp;//!
+    Float_t fTreeCascVarZPApp;//!
+    Float_t fTreeCascVarZPCpp;//!
+    Float_t fTreeCascVarZPACpp;//!
+    Float_t fTreeCascVarZPNApp;//!
+    Float_t fTreeCascVarZPNCpp;//!
+    Float_t fTreeCascVarZPNACpp;//!
     Bool_t fTreeCascVarMVPileupFlag; //!
     Bool_t fTreeCascVarOOBPileupFlag; //!
     

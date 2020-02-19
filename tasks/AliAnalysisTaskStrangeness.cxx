@@ -1,4 +1,12 @@
-
+/* fZNApp
+    fZNCpp
+     fZNACpp
+     fZPApp
+     fZPCpp
+    fZPACpp
+    fZPNApp
+    fZPNCpp
+    fZPNACpp*/
 /**************************************************************************
  * Copyright(c) 1998-1999, ALICE Experiment at CERN, All rights reserved. *
  *                                                                        *
@@ -171,7 +179,25 @@ fkSandboxMode ( kFALSE ),
 
 //---> Variables for fTreeEvent
 fCentrality(0),
-  fTestVariable(0),
+fZNApp(0),
+fZNCpp(0),
+fZNACpp(0),
+fZPApp(0),
+fZPCpp(0),
+fZPACpp(0),
+fZPNApp(0),
+fZPNCpp(0),
+fZPNACpp(0),
+fZNAppTower(0),
+fZNCppTower(0),
+fZNACppTower(0),
+fZPAppTower(0),
+fZPCppTower(0),
+fZPACppTower(0),
+fZPNAppTower(0),
+fZPNCppTower(0),
+fZPNACppTower(0),  
+fTestVariable(0),
 fMVPileupFlag(kFALSE),
 fOOBPileupFlag(kFALSE),
 fNTOFClusters(-1),
@@ -265,6 +291,15 @@ fTreeVariableAmplitudeV0C(-1.),
 fTreeVariableClosestNonEmptyBC(-1),
 
 fTreeVariableCentrality(0),
+fTreeVariableZNApp(0),
+fTreeVariableZNCpp(0),
+fTreeVariableZNACpp(0),
+fTreeVariableZPApp(0),
+fTreeVariableZPCpp(0),
+fTreeVariableZPACpp(0),
+fTreeVariableZPNApp(0),
+fTreeVariableZPNCpp(0),
+fTreeVariableZPNACpp(0),
 fTreeVariableMVPileupFlag(kFALSE),
 fTreeVariableOOBPileupFlag(kFALSE),
 
@@ -443,6 +478,15 @@ fTreeCascVarAmplitudeV0C(-1.),
 fTreeCascVarClosestNonEmptyBC(-1),
 
 fTreeCascVarCentrality(0),
+fTreeCascVarZNApp(0),
+fTreeCascVarZNCpp(0),
+fTreeCascVarZNACpp(0),
+fTreeCascVarZPApp(0),
+fTreeCascVarZPCpp(0),
+fTreeCascVarZPACpp(0),
+fTreeCascVarZPNApp(0),
+fTreeCascVarZPNCpp(0),
+fTreeCascVarZPNACpp(0),
 fTreeCascVarMVPileupFlag(kFALSE),
 fTreeCascVarOOBPileupFlag(kFALSE),
 //Kink tagging
@@ -952,6 +996,24 @@ void AliAnalysisTaskStrangeness::UserCreateOutputObjects()
         fTreeEvent = new TTree("fTreeEvent","Event");
         //Branch Definitions
         fTreeEvent->Branch("fCentrality",&fCentrality,"fCentrality/F");
+	fTreeEvent->Branch("fZNApp", &fZNApp,"fZNApp/F");
+	fTreeEvent->Branch("fZNCpp", &fZNCpp,"fZNCpp/F");
+	fTreeEvent->Branch("fZNACpp", &fZNACpp,"fZNACpp/F");	
+	fTreeEvent->Branch("fZPApp", &fZPApp,"fZPApp/F");
+	fTreeEvent->Branch("fZPCpp", &fZPCpp,"fZPCpp/F");
+	fTreeEvent->Branch("fZPACpp", &fZPACpp,"fZPACpp/F");
+	fTreeEvent->Branch("fZPNApp", &fZPNApp,"fZPNApp/F");
+	fTreeEvent->Branch("fZPNCpp", &fZPNCpp,"fZPNCpp/F");
+	fTreeEvent->Branch("fZPNACpp", &fZPNACpp,"fZPNACpp/F");
+	fTreeEvent->Branch("fZNAppTower", &fZNAppTower,"fZNAppTower/F");
+	fTreeEvent->Branch("fZNCppTower", &fZNCppTower,"fZNCppTower/F");
+	fTreeEvent->Branch("fZNACppTower", &fZNACppTower,"fZNACppTower/F");	
+	fTreeEvent->Branch("fZPAppTower", &fZPAppTower,"fZPAppTower/F");
+	fTreeEvent->Branch("fZPCppTower", &fZPCppTower,"fZPCppTower/F");
+	fTreeEvent->Branch("fZPACppTower", &fZPACppTower,"fZPACppTower/F");
+	fTreeEvent->Branch("fZPNAppTower", &fZPNAppTower,"fZPNAppTower/F");
+	fTreeEvent->Branch("fZPNCppTower", &fZPNCppTower,"fZPNCppTower/F");
+	fTreeEvent->Branch("fZPNACppTower", &fZPNACppTower,"fZPNACppTower/F");
 	fTreeEvent->Branch("fTestVariable",&fTestVariable,"fTestVariable/F");
         fTreeEvent->Branch("fMVPileupFlag",&fMVPileupFlag,"fMVPileupFlag/O");
 	fTreeEvent->Branch("fZDCpercentile",&fZDCpercentile,"fZDCpercentile/F");
@@ -1006,6 +1068,15 @@ void AliAnalysisTaskStrangeness::UserCreateOutputObjects()
         //-----------MULTIPLICITY-INFO--------------------
 	fTreeV0->Branch("fZDCpercentile",&fZDCpercentile,"fZDCpercentile/F");
         fTreeV0->Branch("fTreeVariableCentrality",&fTreeVariableCentrality,"fTreeVariableCentrality/F");
+	fTreeV0->Branch("fTreeVariableZNApp", &fTreeVariableZNApp,"fTreeVariableZNApp/F");
+	fTreeV0->Branch("fTreeVariableZNCpp", &fTreeVariableZNCpp,"fTreeVariableZNCpp/F");
+	fTreeV0->Branch("fTreeVariableZNACpp", &fTreeVariableZNACpp,"fTreeVariableZNACpp/F");	
+	fTreeV0->Branch("fTreeVariableZPApp", &fTreeVariableZPApp,"fTreeVariableZPApp/F");
+	fTreeV0->Branch("fTreeVariableZPCpp", &fTreeVariableZPCpp,"fTreeVariableZPCpp/F");
+	fTreeV0->Branch("fTreeVariableZPACpp", &fTreeVariableZPACpp,"fTreeVariableZPACpp/F");
+	fTreeV0->Branch("fTreeVariableZPNApp", &fTreeVariableZPNApp,"fTreeVariableZPNApp/F");
+	fTreeV0->Branch("fTreeVariableZPNCpp", &fTreeVariableZPNCpp,"fTreeVariableZPNCpp/F");
+	fTreeV0->Branch("fTreeVariableZPNACpp", &fTreeVariableZPNACpp,"fTreeVariableZPNACpp/F");
         fTreeV0->Branch("fTreeVariableMVPileupFlag",&fTreeVariableMVPileupFlag,"fTreeVariableMVPileupFlag/O");
         //------------------------------------------------
         fTreeV0->Branch("fTreeVariableIsCowboy",&fTreeVariableIsCowboy,"fTreeVariableIsCowboy/O");
@@ -1116,6 +1187,15 @@ void AliAnalysisTaskStrangeness::UserCreateOutputObjects()
         //-----------MULTIPLICITY-INFO--------------------
 	fTreeCascade->Branch("fZDCpercentile",&fZDCpercentile,"fZDCpercentile/F");
         fTreeCascade->Branch("fTreeCascVarCentrality",&fTreeCascVarCentrality,"fTreeCascVarCentrality/F");
+	fTreeCascade->Branch("fTreeCascVarZNApp", &fTreeCascVarZNApp,"fTreeCascVarZNApp/F");
+	fTreeCascade->Branch("fTreeCascVarZNCpp", &fTreeCascVarZNCpp,"fTreeCascVarZNCpp/F");
+	fTreeCascade->Branch("fTreeCascVarZNACpp", &fTreeCascVarZNACpp,"fTreeCascVarZNACpp/F");	
+	fTreeCascade->Branch("fTreeCascVarZPApp", &fTreeCascVarZPApp,"fTreeCascVarZPApp/F");
+	fTreeCascade->Branch("fTreeCascVarZPCpp", &fTreeCascVarZPCpp,"fTreeCascVarZPCpp/F");
+	fTreeCascade->Branch("fTreeCascVarZPACpp", &fTreeCascVarZPACpp,"fTreeCascVarZPACpp/F");
+	fTreeCascade->Branch("fTreeCascVarZPNApp", &fTreeCascVarZPNApp,"fTreeCascVarZPNApp/F");
+	fTreeCascade->Branch("fTreeCascVarZPNCpp", &fTreeCascVarZPNCpp,"fTreeCascVarZPNCpp/F");
+	fTreeCascade->Branch("fTreeCascVarZPNACpp", &fTreeCascVarZPNACpp,"fTreeCascVarZPNACpp/F");
         fTreeCascade->Branch("fTreeCascVarMVPileupFlag",&fTreeCascVarMVPileupFlag,"fTreeCascVarMVPileupFlag/O");
         //-----------DECAY-LENGTH-INFO--------------------
         fTreeCascade->Branch("fTreeCascVarDistOverTotMom",&fTreeCascVarDistOverTotMom,"fTreeCascVarDistOverTotMom/F");
@@ -1559,6 +1639,24 @@ void AliAnalysisTaskStrangeness::UserExec(Option_t *)
     //------------------------------------------------
     
     Float_t lPercentile = 500;
+    Float_t lZNAppPerc = 500;
+    Float_t lZNCppPerc = 500;
+    Float_t lZNACppPerc = 500;
+    Float_t lZPAppPerc = 500;
+    Float_t lZPCppPerc = 500;
+    Float_t lZPACppPerc = 500;
+    Float_t lZPNAppPerc = 500;
+    Float_t lZPNCppPerc = 500;
+    Float_t lZPNACppPerc = 500;
+    Float_t lZNAppPercTower = 500;
+    Float_t lZNCppPercTower = 500;
+    Float_t lZNACppPercTower = 500;
+    Float_t lZPAppPercTower = 500;
+    Float_t lZPCppPercTower = 500;
+    Float_t lZPACppPercTower = 500;
+    Float_t lZPNAppPercTower = 500;
+    Float_t lZPNCppPercTower = 500;
+    Float_t lZPNACppPercTower = 500;
     Int_t lEvSelCode = 100;
     AliMultSelection *MultSelection = (AliMultSelection*) lESDevent -> FindListObject("MultSelection");
     if( !MultSelection) {
@@ -1567,6 +1665,24 @@ void AliAnalysisTaskStrangeness::UserExec(Option_t *)
     } else {
         //V0M Multiplicity Percentile
         lPercentile = MultSelection->GetMultiplicityPercentile("V0M");
+	lZNAppPerc = MultSelection->GetMultiplicityPercentile("ZNApp");
+	lZNCppPerc = MultSelection->GetMultiplicityPercentile("ZNCpp");
+	lZNACppPerc = MultSelection->GetMultiplicityPercentile("ZNACpp");
+	lZPAppPerc = MultSelection->GetMultiplicityPercentile("ZPApp");
+	lZPCppPerc = MultSelection->GetMultiplicityPercentile("ZPCpp");
+	lZPACppPerc = MultSelection->GetMultiplicityPercentile("ZPACpp");
+	lZPNAppPerc = MultSelection->GetMultiplicityPercentile("ZPNApp");
+	lZPNCppPerc = MultSelection->GetMultiplicityPercentile("ZPNCpp");
+	lZPNACppPerc = MultSelection->GetMultiplicityPercentile("ZPNACpp");
+	lZNAppPercTower = MultSelection->GetMultiplicityPercentile("ZNAppTower");
+	lZNCppPercTower = MultSelection->GetMultiplicityPercentile("ZNCppTower");
+	lZNACppPercTower = MultSelection->GetMultiplicityPercentile("ZNACppTower");
+	lZPAppPercTower = MultSelection->GetMultiplicityPercentile("ZPAppTower");
+	lZPCppPercTower = MultSelection->GetMultiplicityPercentile("ZPCppTower");
+	lZPACppPercTower = MultSelection->GetMultiplicityPercentile("ZPACppTower");
+	lZPNAppPercTower = MultSelection->GetMultiplicityPercentile("ZPNAppTower");
+	lZPNCppPercTower = MultSelection->GetMultiplicityPercentile("ZPNCppTower");
+	lZPNACppPercTower = MultSelection->GetMultiplicityPercentile("ZPNACppTower");
         //Event Selection Code
         lEvSelCode = MultSelection->GetEvSelCode();
     }
@@ -1576,6 +1692,25 @@ void AliAnalysisTaskStrangeness::UserExec(Option_t *)
     fMVPileupFlag = MultSelection->GetThisEventIsNotPileupMV();
     
     fCentrality = lPercentile;
+    fZNApp = lZNAppPerc;
+    fZNCpp = lZNCppPerc;
+    fZNACpp = lZNACppPerc;
+    fZPApp = lZPAppPerc;
+    fZPCpp = lZPCppPerc; 
+    fZPACpp = lZPACppPerc;
+    fZPNApp = lZPNAppPerc;
+    fZPNCpp = lZPNCppPerc;
+    fZPNACpp = lZPNACppPerc;
+    fZNAppTower = lZNAppPercTower;
+    fZNCppTower = lZNCppPercTower;
+    fZNACppTower = lZNACppPercTower;
+    fZPAppTower = lZPAppPercTower;
+    fZPCppTower = lZPCppPercTower; 
+    fZPACppTower = lZPACppPercTower;
+    fZPNAppTower = lZPNAppPercTower;
+    fZPNCppTower = lZPNCppPercTower;
+    fZPNACppTower = lZPNACppPercTower;
+   
     fTestVariable = lPercentile;
     fZDCpercentile = AliAnalysisTaskLeading::GetZDCCentrality();
     
@@ -2042,6 +2177,15 @@ void AliAnalysisTaskStrangeness::UserExec(Option_t *)
         
         //Copy Multiplicity information
         fTreeVariableCentrality = fCentrality;
+	fTreeVariableZNApp = fZNApp;
+	fTreeVariableZNCpp = fZNCpp;
+	fTreeVariableZNACpp = fZNACpp;
+	fTreeVariableZPApp = fZPApp;
+	fTreeVariableZPCpp = fZPCpp;
+	fTreeVariableZPACpp = fZPACpp;
+	fTreeVariableZPNApp = fZPNApp;
+	fTreeVariableZPNCpp = fZPNCpp;
+	fTreeVariableZPNACpp = fZPNACpp;
         
         //Info for pileup studies
         fTreeVariableNegTOFExpTDiff = nTrack->GetTOFExpTDiff( lESDevent->GetMagneticField() );
@@ -2056,8 +2200,7 @@ void AliAnalysisTaskStrangeness::UserExec(Option_t *)
         fTreeVariableAmplitudeV0A = fAmplitudeV0A;
         fTreeVariableAmplitudeV0C = fAmplitudeV0C;
         //Copy IR information for this event
-        fTreeVariableClosestNonEmptyBC = fClosestNonEmptyBC;
-	
+        fTreeVariableClosestNonEmptyBC = fClosestNonEmptyBC;	
         
         
         //------------------------------------------------
@@ -2985,6 +3128,15 @@ void AliAnalysisTaskStrangeness::UserExec(Option_t *)
         
         //Copy Multiplicity information
         fTreeCascVarCentrality = fCentrality;
+	fTreeCascVarZNApp = fZNApp;
+	fTreeCascVarZNCpp = fZNCpp;
+	fTreeCascVarZNACpp = fZNACpp;
+	fTreeCascVarZPApp = fZPApp;
+	fTreeCascVarZPCpp = fZPCpp;
+	fTreeCascVarZPACpp = fZPACpp;
+	fTreeCascVarZPNApp = fZPNApp;
+	fTreeCascVarZPNCpp = fZPNCpp;
+	fTreeCascVarZPNACpp = fZPNACpp;
         
         fTreeCascVarDistOverTotMom = TMath::Sqrt(
                                                  TMath::Power( lPosXi[0] - lBestPrimaryVtxPos[0] , 2) +
