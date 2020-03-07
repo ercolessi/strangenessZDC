@@ -14,7 +14,7 @@
 #include "TString.h"
 #include "TSystem.h"
 
-void CalibratePeriodPP(TString lPeriodName = "LHC", TString lWhichData = "MB", Long_t lRunToUseAsDefault = 178167)
+void CalibratePeriodPP(TString lPeriodName = "LHC15f", TString lWhichData = "pt2MB", Long_t lRunToUseAsDefault = 0)
 {
 
   //Load ALICE stuff
@@ -164,9 +164,34 @@ void CalibratePeriodPP(TString lPeriodName = "LHC", TString lWhichData = "MB", L
     "-0.89 * fZnaFired * fZnaTower - fZncFired * fZncTower + !fZnaFired * !fZncFired * 1e6"
     */
 
+  //ZN
   AliMultEstimator* fEstZNApp = new AliMultEstimator("ZNApp", "", "-(fZnaFired) * (fZnaTower) + !(fZnaFired) * 1e6");
   AliMultEstimator* fEstZNCpp = new AliMultEstimator("ZNCpp", "", "-(fZncFired) * (fZncTower) + !(fZncFired) * 1e6");
   AliMultEstimator* fEstZNACpp = new AliMultEstimator("ZNACpp", "", "-0.89 * (fZnaFired) * (fZnaTower) - (fZncFired) * (fZncTower) + !(fZnaFired) * !(fZncFired) * 1e6");
+  //ZP
+  AliMultEstimator* fEstZPApp = new AliMultEstimator("ZPApp", "", "-(fZpaFired) * (fZpaTower) + !(fZpaFired) * 1e6");
+  AliMultEstimator* fEstZPCpp = new AliMultEstimator("ZPCpp", "", "-(fZpcFired) * (fZpcTower) + !(fZpcFired) * 1e6");
+  AliMultEstimator* fEstZPACpp = new AliMultEstimator("ZPACpp", "", "-0.89 * (fZpaFired) * (fZpaTower) - (fZpcFired) * (fZpcTower) + !(fZpaFired) * !(fZpcFired) * 1e6");
+  //ZP+ZN
+  AliMultEstimator* fEstZPNApp = new AliMultEstimator("ZPNApp", "", "-(fZpaFired) * (fZpaTower) + !(fZpaFired) * 1e6 - (fZnaFired) * (fZnaTower) + !(fZnaFired) * 1e6");
+  AliMultEstimator* fEstZPNCpp = new AliMultEstimator("ZPNCpp", "", "-(fZpcFired) * (fZpcTower) + !(fZpcFired) * 1e6 - (fZncFired) * (fZncTower) + !(fZncFired) * 1e6");
+  AliMultEstimator* fEstZPNACpp = new AliMultEstimator("ZPNACpp", "", "-0.89 * (fZpaFired) * (fZpaTower) - (fZpcFired) * (fZpcTower) + !(fZpaFired) * !(fZpcFired) * 1e6 - 0.89 * (fZnaFired) * (fZnaTower) - (fZncFired) * (fZncTower) + !(fZnaFired) * !(fZncFired) * 1e6");
+
+  //ZDC percentile like estimators
+  
+  //ZN
+  AliMultEstimator* fEstZNAppTower = new AliMultEstimator("ZNAppTower", "", "-(fZnaTower)");
+  AliMultEstimator* fEstZNCppTower = new AliMultEstimator("ZNCppTower", "", "-(fZncTower)");
+  AliMultEstimator* fEstZNACppTower = new AliMultEstimator("ZNACppTower", "", "- (fZnaTower) - (fZncTower) ");
+  //ZP
+  AliMultEstimator* fEstZPAppTower = new AliMultEstimator("ZPAppTower", "", "-(fZpaTower)");
+  AliMultEstimator* fEstZPCppTower = new AliMultEstimator("ZPCppTower", "", "-(fZpcTower)");
+  AliMultEstimator* fEstZPACppTower = new AliMultEstimator("ZPACppTower", "", "-(fZpaTower) - (fZpcTower)");
+  //ZP+ZN
+  AliMultEstimator* fEstZPNAppTower = new AliMultEstimator("ZPNAppTower", "", "- (fZpaTower) - (fZnaTower) ");
+  AliMultEstimator* fEstZPNCppTower = new AliMultEstimator("ZPNCppTower", "", "- (fZpcTower) - (fZncTower)");
+  AliMultEstimator* fEstZPNACppTower = new AliMultEstimator("ZPNACppTower", "", " - (fZpaTower) - (fZpcTower) - (fZnaTower) - (fZncTower)"); 
+
 
   //Universal: V0
   lCalib->GetMultSelection()->AddEstimator(fEstV0M);
@@ -190,13 +215,29 @@ void CalibratePeriodPP(TString lPeriodName = "LHC", TString lWhichData = "MB", L
   lCalib->GetMultSelection()->AddEstimator(fEstZNApp);
   lCalib->GetMultSelection()->AddEstimator(fEstZNCpp);
   lCalib->GetMultSelection()->AddEstimator(fEstZNACpp);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPApp);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPCpp);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPACpp);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPNApp);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPNCpp);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPNACpp);
+  lCalib->GetMultSelection()->AddEstimator(fEstZNAppTower);
+  lCalib->GetMultSelection()->AddEstimator(fEstZNCppTower);
+  lCalib->GetMultSelection()->AddEstimator(fEstZNACppTower);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPAppTower);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPCppTower);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPACppTower);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPNAppTower);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPNCppTower);
+  lCalib->GetMultSelection()->AddEstimator(fEstZPNACppTower);
 
   //============================================================
   // --- Definition of Input/Output ---
   //============================================================
 
-  lCalib->SetInputFile("AnalysisResultsMerged.root");
+  lCalib->SetInputFile("AnalysisResults.root");
   lCalib->SetBufferFile(Form("buffer-%s-%s.root", lPeriodName.Data(), lWhichData.Data()));
   lCalib->SetOutputFile(Form("OADB-%s-%s.root", lPeriodName.Data(), lWhichData.Data()));
+  lCalib->SetMaxEventsPerRun(1000000);
   lCalib->Calibrate();
 }
