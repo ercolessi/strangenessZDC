@@ -2209,6 +2209,7 @@ void AliAnalysisTaskStrangenessVsMultiplicityEEMCRun2::UserExec(Option_t *)
 
     AliPPVsMultUtils *multUtils = new AliPPVsMultUtils();
     if( !multUtils->IsEventSelected(lESDevent) ) return;  
+    if ( lESDevent->IsIncompleteDAQ() ) return;
 
     if( lEvSelCode != 0 ) {
         //Regular Output: Slots 1-8
